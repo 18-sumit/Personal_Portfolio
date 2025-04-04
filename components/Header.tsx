@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Github, Gitlab, Linkedin, Menu, Twitter, X } from "lucide-react";
+import { Github, Linkedin, Menu, Twitter, X } from "lucide-react";
 // import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import ThemeSwitcher from "../components/ThemeSwitcher";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);

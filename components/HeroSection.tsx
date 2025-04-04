@@ -12,7 +12,7 @@ const HeroSection = () => {
   }, []);
 
   // Handle resume download without navigation
-  const handleResumeDownload = (e: React.MouseEvent) => {
+  const handleResumeDownload = () => {
     // No need to prevent default if you want the browser to handle the download
     // Just make sure the file exists at the specified path
   };
