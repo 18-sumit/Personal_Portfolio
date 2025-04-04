@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Github, ExternalLink, ArrowLeft, ChevronRight } from 'lucide-react';
+import Image from 'next/image';
 
 interface Project {
   title: string;
@@ -70,7 +71,7 @@ const ProjectsSection: React.FC = () => {
     },
     {
       title: "SecureScan",
-      description: "A fully-featured e-commerce solution with product catalog, shopping cart, and secure payment processing.",
+      description: "A secure scanning system for identifying malicious URLs and websites.",
       technologies: ["React.js", "JavaScript", "Redux toolkit", "Node.js", "MongoDB", "JWT", "Socket.io"],
       category: "Full Stack",
       githubLink: "https://github.com/18-sumit/SecureScan",
@@ -87,7 +88,7 @@ const ProjectsSection: React.FC = () => {
     {
       title: "Crowd Connect",
       description: "A social event management platform for organizing community gatherings and tracking attendance.",
-      technologies: ["React", "Appwrite", "RazorPay", "JavaScript" , "EmailJS"],
+      technologies: ["React", "Appwrite", "RazorPay", "JavaScript", "EmailJS"],
       category: "Frontend",
       githubLink: "https://github.com/18-sumit/CrowdConnect",
       liveLink: "https://crowdconnect.vercel.app/",
@@ -95,13 +96,12 @@ const ProjectsSection: React.FC = () => {
     },
     {
       title: "Youtube Backend",
-      description:"This project is a robust and scalable backend for a video hosting platform, designed to function similarly to YouTube. It is built using Node.js, Express.js, MongoDB, Mongoose, JWT (JSON Web Tokens), bcrypt, and other modern technologies. The backend provides all the core functionalities necessary for a video hosting service, including user authentication, video upload and management, user interactions (likes, dislikes, comments, subscriptions), and much more.",
+      description: "A backend for a YouTube-like platform including video upload, user auth, interactions, and subscriptions.",
       technologies: ["JavaScript", "Node.js", "MongoDB", "Express", "JWT", "Bcrypt", "Mongoose"],
       category: "Backend",
       githubLink: "https://github.com/18-sumit/Backend/tree/main/Youtube_Backend",
       imageUrl: "/Blue_Origin1.jpg"
     }
-
   ];
 
   const filteredProjects = activeCategory === "All"
@@ -131,7 +131,7 @@ const ProjectsSection: React.FC = () => {
                       setSelectedProject(null);
                     }}
                     className={`block w-full text-left px-4 py-2 rounded-md text-sm transition-colors
-                              ${activeCategory === category
+                      ${activeCategory === category
                         ? 'bg-gradient-to-r from-teal-500 to-teal-700 text-white font-medium'
                         : 'text-gray-300 hover:text-white hover:bg-[#282828]'}`}
                     whileHover={{ x: 4 }}
@@ -147,7 +147,6 @@ const ProjectsSection: React.FC = () => {
           {/* Main Content */}
           <div className="md:col-span-3 bg-gradient-to-b from-[#1E1E1E] to-[#121212] rounded-lg">
             {showDetails && selectedProject ? (
-              // Project Details View
               <motion.div
                 className="p-6"
                 initial={{ opacity: 0 }}
@@ -165,12 +164,19 @@ const ProjectsSection: React.FC = () => {
                 </motion.button>
 
                 <div className="flex flex-col md:flex-row gap-6">
-                  {/* Project Image */}
-                  <div className="w-full md:w-64 h-64 bg-[#333] rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden">
-                    {selectedProject.imageUrl ?
-                      <img src={selectedProject.imageUrl} alt={selectedProject.title} className="w-full h-full object-cover" /> :
-                      <div className="text-6xl font-bold text-gray-300">{selectedProject.title.charAt(0)}</div>
-                    }
+                  <div className="w-full md:w-64 h-64 bg-[#333] rounded-lg flex-shrink-0 overflow-hidden relative">
+                    {selectedProject.imageUrl ? (
+                      <Image
+                        src={selectedProject.imageUrl}
+                        alt={selectedProject.title}
+                        layout="fill"
+                        objectFit="cover"
+                      />
+                    ) : (
+                      <div className="text-6xl font-bold text-gray-300 flex justify-center items-center h-full">
+                        {selectedProject.title.charAt(0)}
+                      </div>
+                    )}
                   </div>
 
                   {/* Project Info */}
@@ -251,11 +257,19 @@ const ProjectsSection: React.FC = () => {
                       <ChevronRight size={16} className="hidden group-hover:block text-[#0F766E]" />
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-[#333] rounded flex-shrink-0 flex items-center justify-center overflow-hidden">
-                        {project.imageUrl ?
-                          <img src={project.imageUrl} alt={project.title} className="w-full h-full object-cover" /> :
-                          <div className="text-lg font-bold text-gray-300">{project.title.charAt(0)}</div>
-                        }
+                      <div className="w-10 h-10 bg-[#333] rounded flex-shrink-0 relative overflow-hidden">
+                        {project.imageUrl ? (
+                          <Image
+                            src={project.imageUrl}
+                            alt={project.title}
+                            fill
+                            className="object-cover"
+                          />
+                        ) : (
+                          <div className="text-lg font-bold text-gray-300 flex items-center justify-center h-full">
+                            {project.title.charAt(0)}
+                          </div>
+                        )}
                       </div>
                       <div>
                         <h3 className="font-medium text-white">{project.title}</h3>
@@ -263,16 +277,11 @@ const ProjectsSection: React.FC = () => {
                       </div>
                     </div>
                     <div className="flex gap-2 flex-wrap justify-end">
-                      {project.technologies.slice(0, 2).map((tech, idx) => (
+                      {project.technologies.slice(0, 3).map((tech, idx) => (
                         <span key={idx} className="text-xs text-gray-300 px-2 py-1 bg-[#333] rounded-full">
                           {tech}
                         </span>
                       ))}
-                      {project.technologies.length > 2 && (
-                        <span className="text-xs text-gray-300 px-2 py-1 bg-[#333] rounded-full">
-                          +{project.technologies.length - 2}
-                        </span>
-                      )}
                     </div>
                   </motion.div>
                 ))}
@@ -280,66 +289,6 @@ const ProjectsSection: React.FC = () => {
             )}
           </div>
         </div>
-
-        {/* Bottom Status Bar - Only shown when a project is selected but details aren't shown */}
-        {selectedProject && !showDetails && (
-          <motion.div
-            className="fixed bottom-0 left-0 right-0 bg-[#181818] border-t border-[#282828] p-4"
-            initial={{ y: 80 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="max-w-7xl mx-auto flex justify-between items-center">
-              {/* Selected Project Info */}
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-[#333] rounded flex-shrink-0 flex items-center justify-center overflow-hidden">
-                  {selectedProject.imageUrl ?
-                    <img src={selectedProject.imageUrl} alt={selectedProject.title} className="w-full h-full object-cover" /> :
-                    <div className="text-2xl font-bold text-gray-300">{selectedProject.title.charAt(0)}</div>
-                  }
-                </div>
-                <div>
-                  <h4 className="font-medium text-white">{selectedProject.title}</h4>
-                  <p className="text-xs text-gray-400 line-clamp-1">{selectedProject.description}</p>
-                </div>
-              </div>
-
-              {/* Action Links */}
-              <div className="flex gap-3">
-                <motion.a
-                  href={selectedProject.githubLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-white transition-colors"
-                  whileHover={{ scale: 1.2 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <Github size={20} />
-                </motion.a>
-                {selectedProject.liveLink && (
-                  <motion.a
-                    href={selectedProject.liveLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-white transition-colors"
-                    whileHover={{ scale: 1.2 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <ExternalLink size={20} />
-                  </motion.a>
-                )}
-                <motion.button
-                  onClick={() => setShowDetails(true)}
-                  className="text-xs bg-transparent text-[#1DB954] border border-[#1DB954] hover:bg-[#1DB954]/10 px-3 py-1 rounded-full"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  View Details
-                </motion.button>
-              </div>
-            </div>
-          </motion.div>
-        )}
       </div>
     </section>
   );
