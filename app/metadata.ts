@@ -2,7 +2,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Ajit Yadav",
+  title: "Sumit",
   description: "Portfolio showcasing projects, skills, and professional journey",
   keywords: ["Software Engineer", "AI", "Cloud Security", "Next.js"],
   openGraph: {
