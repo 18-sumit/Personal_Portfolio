@@ -107,7 +107,7 @@ const ProjectsSection: React.FC = () => {
       technologies: ["Python", "LangChain", "OpenAI", "FastAPI"],
       category: "AI/ML",
       githubLink: "https://github.com/18-sumit/RAG-BOT",
-      liveLink:"https://rag-eosin-chi.vercel.app/",
+      liveLink: "https://rag-eosin-chi.vercel.app/",
       imageUrl: "/RAGBot.png",
     },
     {
@@ -182,11 +182,10 @@ const ProjectsSection: React.FC = () => {
                   setShowDetails(false);
                   setSelectedProject(null);
                 }}
-                className={`px-6 py-2 rounded-full text-sm transition-colors whitespace-nowrap ${
-                  activeCategory === category
+                className={`px-6 py-2 rounded-full text-sm transition-colors whitespace-nowrap ${activeCategory === category
                     ? "bg-gradient-to-r from-teal-500 to-teal-700 text-white font-medium"
                     : "text-gray-300 bg-[#282828] hover:text-white hover:bg-[#333]"
-                }`}
+                  }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -316,22 +315,24 @@ const ProjectsSection: React.FC = () => {
                   <div className="w-full h-full bg-teal-500 rounded-lg opacity-10 blur-xl"></div>
                 </motion.div>
               )}
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
                 {filteredProjects.map((project) => (
                   <motion.div
                     key={project.title}
-                    ref={el => cardRefs.current[project.title] = el}
+                    ref={(el) => {
+                      cardRefs.current[project.title] = el
+                    }}
                     className={`relative bg-[#1A1A1A] rounded-lg overflow-hidden shadow-lg transition-all duration-300 flex flex-col z-10
-                      ${hoveredCard === project.title ? 'shadow-teal-500/50 scale-105 z-20' : 
-                      hoveredCard ? 'opacity-70 scale-95' : ''}`}
+                      ${hoveredCard === project.title ? 'shadow-teal-500/50 scale-105 z-20' :
+                        hoveredCard ? 'opacity-70 scale-95' : ''}`}
                     variants={itemVariants}
                     onMouseEnter={() => setHoveredCard(project.title)}
                     onMouseLeave={() => setHoveredCard(null)}
                   >
                     {/* Card Border Glow Effect */}
                     {hoveredCard === project.title && (
-                      <motion.div 
+                      <motion.div
                         className="absolute inset-0 rounded-lg z-0"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -340,9 +341,9 @@ const ProjectsSection: React.FC = () => {
                         <div className="absolute inset-0 rounded-lg border border-teal-500"></div>
                       </motion.div>
                     )}
-                
+
                     {/* Image Container with Fixed Aspect Ratio */}
-                    <div 
+                    <div
                       className="w-full aspect-video relative cursor-pointer overflow-hidden"
                       onClick={() => {
                         setSelectedProject(project);
@@ -375,7 +376,7 @@ const ProjectsSection: React.FC = () => {
                         </span>
                       </div>
                     </div>
-                    
+
                     <div className="p-5 flex-1 flex flex-col relative z-10">
                       <h3 className="text-xl font-bold mb-2 flex items-center">
                         {project.title}
@@ -390,13 +391,13 @@ const ProjectsSection: React.FC = () => {
                           </motion.div>
                         )}
                       </h3>
-                      
+
                       <div className="mb-4 flex-grow">
                         <p className={`text-gray-300 text-sm ${isCardExpanded(project.title) ? '' : 'line-clamp-2'}`}>
                           {project.description}
                         </p>
                         {project.description.length > 100 && (
-                          <button 
+                          <button
                             className="text-teal-500 text-xs mt-1 hover:underline"
                             onClick={() => toggleExpandCard(project.title)}
                           >
@@ -404,16 +405,15 @@ const ProjectsSection: React.FC = () => {
                           </button>
                         )}
                       </div>
-                      
+
                       <div className="flex flex-wrap gap-2 mb-4">
                         {project.technologies.slice(0, 3).map((tech, idx) => (
                           <span
                             key={idx}
-                            className={`text-xs px-2 py-1 rounded-full transition-colors ${
-                              hoveredCard === project.title 
-                                ? 'text-white bg-teal-600' 
+                            className={`text-xs px-2 py-1 rounded-full transition-colors ${hoveredCard === project.title
+                                ? 'text-white bg-teal-600'
                                 : 'text-gray-300 bg-[#333]'
-                            }`}
+                              }`}
                           >
                             {tech}
                           </span>
@@ -424,17 +424,16 @@ const ProjectsSection: React.FC = () => {
                           </span>
                         )}
                       </div>
-                      
+
                       <div className="flex gap-3 mt-auto">
                         <motion.a
                           href={project.githubLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className={`flex items-center gap-2 text-white px-3 py-2 rounded-md transition-all text-sm flex-1 justify-center ${
-                            hoveredCard === project.title
+                          className={`flex items-center gap-2 text-white px-3 py-2 rounded-md transition-all text-sm flex-1 justify-center ${hoveredCard === project.title
                               ? 'bg-[#444] shadow-md shadow-[#555]/20'
                               : 'bg-[#333]'
-                          }`}
+                            }`}
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                         >
@@ -446,11 +445,10 @@ const ProjectsSection: React.FC = () => {
                             href={project.liveLink}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className={`flex items-center gap-2 text-white px-3 py-2 rounded-md transition-all text-sm flex-1 justify-center ${
-                              hoveredCard === project.title
+                            className={`flex items-center gap-2 text-white px-3 py-2 rounded-md transition-all text-sm flex-1 justify-center ${hoveredCard === project.title
                                 ? 'bg-gradient-to-r from-teal-600 to-teal-800 shadow-md shadow-teal-500/20'
                                 : 'bg-gradient-to-r from-teal-500 to-teal-700'
-                            }`}
+                              }`}
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                           >
