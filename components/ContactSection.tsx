@@ -46,7 +46,7 @@ export function ContactSection() {
           Contact Me
         </h1>
         <p className="text-neutral-500 max-w-lg mx-auto my-4 text-sm md:text-base text-center">
-          Let's connect and create something amazing together.
+          Lets connect and create something amazing together.
         </p>
 
         <form
