@@ -1,8 +1,40 @@
 "use client";
+
+import React, { useRef, useState } from "react";
+import emailjs from "emailjs-com";
 import { BackgroundBeams } from "@/components/ui/background-beams";
-import React from "react";
 
 export function ContactSection() {
+  const formRef = useRef<HTMLFormElement>(null);
+  const [isSending, setIsSending] = useState(false);
+  const [sentMessage, setSentMessage] = useState("");
+
+  const sendEmail = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSending(true);
+
+    if (!formRef.current) return;
+
+    emailjs
+      .sendForm(
+        "service_o1k03ot",      // e.g., "service_123abc"
+        "template_jc873aq",     // e.g., "template_xyz"
+        formRef.current,
+        "fbxLzbBncfCIVbQwF"       // e.g., "abcD123XYZ456"
+      )
+      .then(
+        () => {
+          setSentMessage("Message sent successfully!");
+          formRef.current?.reset();
+        },
+        (error) => {
+          setSentMessage("Failed to send message. Please try again.");
+          console.error("EmailJS error:", error);
+        }
+      )
+      .finally(() => setIsSending(false));
+  };
+
   return (
     <div className="h-[40rem] w-full rounded-md bg-neutral-950 relative flex flex-col items-center justify-center antialiased overflow-hidden">
       <div className="absolute inset-0 z-0">
@@ -14,23 +46,48 @@ export function ContactSection() {
           Contact Me
         </h1>
         <p className="text-neutral-500 max-w-lg mx-auto my-4 text-sm md:text-base text-center">
-          Lets connect and create something amazing together.
+          Let's connect and create something amazing together.
         </p>
-        <div className="flex flex-col md:flex-row gap-4 mt-6">
+
+        <form
+          ref={formRef}
+          onSubmit={sendEmail}
+          className="flex flex-col md:flex-row gap-4 mt-6"
+        >
           <input
             type="text"
-            placeholder="Say me! Hi Sumit, Let's connect"
+            name="name"
+            placeholder="Say Hi! enter your Name "
+            required
             className="rounded-lg border p-3 border-neutral-800 focus:ring-2 focus:ring-teal-500 w-full bg-neutral-950 placeholder:text-neutral-700"
           />
           <input
-            type="text"
+            type="email"
+            name="email"
             placeholder="Enter your email here"
+            required
             className="rounded-lg border p-3 border-neutral-800 focus:ring-2 focus:ring-teal-500 w-full bg-neutral-950 placeholder:text-neutral-700"
           />
-          <button className="bg-gradient-to-r from-teal-500 to-teal-700 text-white rounded-lg py-3 px-6 font-medium hover:opacity-90 transition-opacity">
-            Send
+          <input
+            type="text"
+            name="message"
+            placeholder="Enter your message here"
+            required
+            className="rounded-lg border p-3 border-neutral-800 focus:ring-2 focus:ring-teal-500 w-full bg-neutral-950 placeholder:text-neutral-700"
+          />
+          <button
+            type="submit"
+            disabled={isSending}
+            className="bg-gradient-to-r from-teal-500 to-teal-700 text-white rounded-lg py-3 px-6 font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
+          >
+            {isSending ? "Sending..." : "Send"}
           </button>
-        </div>
+        </form>
+
+        {sentMessage && (
+          <p className="text-sm text-center text-teal-400 mt-3">{sentMessage}</p>
+        )}
+
         <p className="text-neutral-700 text-xs mt-3 text-center">
           I respect your privacy. No spam, ever.
         </p>
